@@ -1,24 +1,25 @@
-const eventData = {
-    title: '',
-    displayDate: '',
-    circuit: '',
-    country: '',
-    sessions: []
-}
-
-const embed = {
-    content: null,
-    embeds: [{
-        title: '',
-        description: '',
-        color: 16711680,
-        fields: [],
-        timestamp: new Date().toISOString(),
-    }],
-    "attachments": []
-};
-
 const main = async () => {
+    
+    const eventData = {
+        title: '',
+        displayDate: '',
+        circuit: '',
+        country: '',
+        sessions: []
+    }
+    
+    const embed = {
+        content: null,
+        embeds: [{
+            title: '',
+            description: '',
+            color: 16711680,
+            fields: [],
+            timestamp: new Date().toISOString(),
+        }],
+        "attachments": []
+    };
+    
     let jsonData = await fetch("https://f1tv.formula1.com/2.0/R/ENG/WEB_DASH/ALL/PAGE/395/PRO/14", {
         "headers": {
             "Accept": "*/*",
@@ -49,16 +50,6 @@ const main = async () => {
     // sort eventData.sessions by startDate
     eventData.sessions.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
 
-    // check if the first session is in the next 7 days
-    let firstSessionDate = new Date(eventData.sessions[0].startDate);
-    let today = new Date();
-    let nextWeek = new Date();
-    nextWeek.setDate(today.getDate() + 7);
-    if (firstSessionDate > nextWeek) {
-        console.log("No session in the next 7 days");
-        return;
-    }
-
     // if the last session is in the past, return
     let lastSessionDate = new Date(eventData.sessions[eventData.sessions.length - 1].startDate);
     if (lastSessionDate < today) {
@@ -80,7 +71,7 @@ const main = async () => {
     });
 
     // send embed to discord webhook
-    const url = process.env.WEBHOOK_URL;
+    const url = "";
     await fetch(url, {
         method: 'POST',
         headers: {
