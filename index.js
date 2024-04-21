@@ -49,6 +49,16 @@ const main = async () => {
     // sort eventData.sessions by startDate
     eventData.sessions.sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
 
+    // check if the first session is in the next 7 days
+    let firstSessionDate = new Date(eventData.sessions[0].startDate);
+    let today = new Date();
+    let nextWeek = new Date();
+    nextWeek.setDate(today.getDate() + 7);
+    if (firstSessionDate > nextWeek) {
+        console.log("No session in the next 7 days");
+        return;
+    }
+
     // build embed
     let embedRef = embed.embeds[0];
     embedRef.title = eventData.title;
