@@ -59,6 +59,13 @@ const main = async () => {
         return;
     }
 
+    // if the last session is in the past, return
+    let lastSessionDate = new Date(eventData.sessions[eventData.sessions.length - 1].startDate);
+    if (lastSessionDate < today) {
+        console.log("Last session is in the past");
+        return;
+    }
+
     // build embed
     let embedRef = embed.embeds[0];
     embedRef.title = eventData.title;
